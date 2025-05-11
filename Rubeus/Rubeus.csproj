@@ -103,6 +103,7 @@
     <Compile Include="Commands\Tgssub.cs" />
     <Compile Include="Commands\Tgtdeleg.cs" />
     <Compile Include="Commands\Triage.cs" />
+    <Compile Include="Crypto\StringEncryptor.cs" />
     <Compile Include="Domain\ArgumentParser.cs" />
     <Compile Include="Domain\ArgumentParserResult.cs" />
     <Compile Include="Domain\CommandCollection.cs" />
@@ -239,6 +240,10 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetPath)" "D:\repo\test_files"
+</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
