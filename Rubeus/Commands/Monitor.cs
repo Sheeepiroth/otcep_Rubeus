@@ -10,7 +10,9 @@ namespace Rubeus.Commands
 
         public void Execute(Dictionary<string, string> arguments)
         {
-            Console.WriteLine("[*] Action: TGT Monitoring");
+            string S(byte[] b) => System.Text.Encoding.UTF8.GetString(b);
+
+            Console.WriteLine(S(new byte[] { 91, 42, 93, 32, 65, 99, 116, 105, 111, 110, 58, 32, 84, 71, 84, 32, 77, 111, 110, 105, 116, 111, 114, 105, 110, 103 }));
 
             string targetUser = null;
             int interval = 60;

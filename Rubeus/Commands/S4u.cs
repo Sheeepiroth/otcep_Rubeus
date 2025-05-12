@@ -10,7 +10,9 @@ namespace Rubeus.Commands
 
         public void Execute(Dictionary<string, string> arguments)
         {
-            Console.WriteLine("[*] Action: S4U\r\n");
+            string S(byte[] b) => System.Text.Encoding.UTF8.GetString(b);
+
+            Console.WriteLine(S(new byte[] { 91, 42, 93, 32, 65, 99, 116, 105, 111, 110, 58, 32, 83, 52, 85, 13, 10 }));
 
             string targetUser = "";
             string targetSPN = "";
@@ -71,7 +73,7 @@ namespace Rubeus.Commands
             {
                 if (arguments.ContainsKey("/tgs"))
                 {
-                    Console.WriteLine("\r\n[X] You must supply either a /impersonateuser or a /tgs, but not both.\r\n");
+                    Console.WriteLine(S(new byte[] { 13, 10, 91, 88, 93, 32, 89, 111, 117, 32, 109, 117, 115, 116, 32, 115, 117, 112, 112, 108, 121, 32, 101, 105, 116, 104, 101, 114, 32, 97, 32, 47, 105, 109, 112, 101, 114, 115, 111, 110, 97, 116, 101, 117, 115, 101, 114, 32, 111, 114, 32, 97, 32, 47, 116, 103, 115, 44, 32, 98, 117, 116, 32, 110, 111, 116, 32, 98, 111, 116, 104, 46, 13, 10 }));
                     return;
                 }
                 targetUser = arguments["/impersonateuser"];
@@ -142,7 +144,7 @@ namespace Rubeus.Commands
                 }
                 else
                 {
-                    Console.WriteLine("\r\n[X] /tgs:X must either be a .kirbi file or a base64 encoded .kirbi\r\n");
+                    Console.WriteLine(S(new byte[] { 13, 10, 91, 88, 93, 32, 47, 116, 103, 115, 58, 88, 32, 109, 117, 115, 116, 32, 101, 105, 116, 104, 101, 114, 32, 98, 101, 32, 97, 32, 46, 107, 105, 114, 98, 105, 32, 102, 105, 108, 101, 32, 111, 114, 32, 97, 32, 98, 97, 115, 101, 54, 52, 32, 101, 110, 99, 111, 100, 101, 100, 32, 46, 107, 105, 114, 98, 105, 13, 10 }));
                     return;
                 }
 
@@ -155,13 +157,13 @@ namespace Rubeus.Commands
             }
             if (String.IsNullOrEmpty(targetUser) && tgs == null)
             {
-                Console.WriteLine("\r\n[X] You must supply a /tgs to impersonate!\r\n");
-                Console.WriteLine("[X] Alternatively, supply a /impersonateuser to perform S4U2Self first.\r\n");
+                Console.WriteLine(S(new byte[] { 13, 10, 91, 88, 93, 32, 89, 111, 117, 32, 109, 117, 115, 116, 32, 115, 117, 112, 112, 108, 121, 32, 97, 32, 47, 116, 103, 115, 32, 116, 111, 32, 105, 109, 112, 101, 114, 115, 111, 110, 97, 116, 101, 33, 13, 10 }));
+                Console.WriteLine(S(new byte[] { 91, 88, 93, 32, 65, 108, 116, 101, 114, 110, 97, 116, 105, 118, 101, 108, 121, 44, 32, 115, 117, 112, 112, 108, 121, 32, 97, 32, 47, 105, 109, 112, 101, 114, 115, 111, 110, 97, 116, 101, 117, 115, 101, 114, 32, 116, 111, 32, 112, 101, 114, 102, 111, 114, 109, 32, 83, 52, 85, 50, 83, 101, 108, 102, 32, 102, 105, 114, 115, 116, 46, 13, 10 }));
                 return;
             }
             if (String.IsNullOrEmpty(targetSPN) && tgs != null)
             {
-                Console.WriteLine("\r\n[X] If a /tgs is supplied, you must also supply a /msdsspn !\r\n");
+                Console.WriteLine(S(new byte[] { 13, 10, 91, 88, 93, 32, 73, 102, 32, 97, 32, 47, 116, 103, 115, 32, 105, 115, 32, 115, 117, 112, 112, 108, 105, 101, 100, 44, 32, 121, 111, 117, 32, 109, 117, 115, 116, 32, 97, 108, 115, 111, 32, 115, 117, 112, 112, 108, 121, 32, 97, 32, 47, 109, 115, 100, 115, 115, 112, 110, 32, 33, 13, 10 }));
                 return;
             }
             bool show = arguments.ContainsKey("/show");
@@ -191,7 +193,7 @@ namespace Rubeus.Commands
                 }
                 else
                 {
-                    Console.WriteLine("\r\n[X] /ticket:X must either be a .kirbi file or a base64 encoded .kirbi\r\n");
+                    Console.WriteLine(S(new byte[] { 13, 10, 91, 88, 93, 32, 47, 116, 105, 99, 107, 101, 116, 58, 88, 32, 109, 117, 115, 116, 32, 101, 105, 116, 104, 101, 114, 32, 98, 101, 32, 97, 32, 46, 107, 105, 114, 98, 105, 32, 102, 105, 108, 101, 32, 111, 114, 32, 97, 32, 98, 97, 115, 101, 54, 52, 32, 101, 110, 99, 111, 100, 101, 100, 32, 46, 107, 105, 114, 98, 105, 13, 10 }));
                 }
                 return;
             }
@@ -203,7 +205,7 @@ namespace Rubeus.Commands
 
                 if (String.IsNullOrEmpty(hash))
                 {
-                    Console.WriteLine("\r\n[X] You must supply a /rc4 or /aes256 hash!\r\n");
+                    Console.WriteLine(S(new byte[] { 13, 10, 91, 88, 93, 32, 89, 111, 117, 32, 109, 117, 115, 116, 32, 115, 117, 112, 112, 108, 121, 32, 97, 32, 47, 114, 99, 52, 32, 111, 114, 32, 47, 97, 101, 115, 50, 53, 54, 32, 104, 97, 115, 104, 33, 13, 10 }));
                     return;
                 }
 
@@ -212,8 +214,8 @@ namespace Rubeus.Commands
             }
             else
             {
-                Console.WriteLine("\r\n[X] A /ticket:X needs to be supplied for S4U!\r\n");
-                Console.WriteLine("[X] Alternatively, supply a /user and </rc4:X | /aes256:X> hash to first retrieve a TGT.\r\n");
+                Console.WriteLine(S(new byte[] { 13, 10, 91, 88, 93, 32, 65, 32, 47, 116, 105, 99, 107, 101, 116, 58, 88, 32, 110, 101, 101, 100, 115, 32, 116, 111, 32, 98, 101, 32, 115, 117, 112, 112, 108, 105, 101, 100, 32, 102, 111, 114, 32, 83, 52, 85, 33, 13, 10 }));
+                Console.WriteLine(S(new byte[] { 91, 88, 93, 32, 65, 108, 116, 101, 114, 110, 97, 116, 105, 118, 101, 108, 121, 44, 32, 115, 117, 112, 112, 108, 121, 32, 97, 32, 47, 117, 115, 101, 114, 32, 97, 110, 100, 32, 60, 47, 114, 99, 52, 58, 88, 32, 124, 32, 47, 97, 101, 115, 50, 53, 54, 58, 88, 62, 32, 104, 97, 115, 104, 32, 116, 111, 32, 102, 105, 114, 115, 116, 32, 114, 101, 116, 114, 105, 101, 118, 101, 32, 97, 32, 84, 71, 84, 46, 13, 10 }));
                 return;
             }
         }

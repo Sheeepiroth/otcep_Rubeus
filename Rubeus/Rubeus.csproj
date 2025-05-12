@@ -103,7 +103,6 @@
     <Compile Include="Commands\Tgssub.cs" />
     <Compile Include="Commands\Tgtdeleg.cs" />
     <Compile Include="Commands\Triage.cs" />
-    <Compile Include="Crypto\StringEncryptor.cs" />
     <Compile Include="Domain\ArgumentParser.cs" />
     <Compile Include="Domain\ArgumentParserResult.cs" />
     <Compile Include="Domain\CommandCollection.cs" />
@@ -225,6 +224,7 @@
     <Compile Include="lib\Roast.cs" />
     <Compile Include="lib\S4U.cs" />
     <Compile Include="lib\ForgeTicket.cs" />
+    <Compile Include="Obfuscate\StringEncryptor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -237,6 +237,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Obfuscate\test.ps1" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
