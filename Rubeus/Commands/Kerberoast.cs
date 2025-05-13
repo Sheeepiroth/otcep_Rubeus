@@ -130,7 +130,7 @@ namespace Rubeus.Commands
                 }
             }
 
-            if (arguments.ContainsKey(S(new byte[] { 47, 117, 115, 101, 116, 103, 116, 100, 101, 108, 101, 103 }) || arguments.ContainsKey(S(new byte[] { 47, 116, 103, 116, 100, 101, 108, 101, 103 }))))
+            if (arguments.ContainsKey(S(new byte[] { 47, 117, 115, 101, 116, 103, 116, 100, 101, 108, 101, 103 })) || arguments.ContainsKey(S(new byte[] { 47, 116, 103, 116, 100, 101, 108, 101, 103 })))
             {
                 // use the TGT delegation trick to get a delegated TGT to use for roasting
                 useTGTdeleg = true;

