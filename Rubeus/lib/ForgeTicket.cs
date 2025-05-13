@@ -14,6 +14,8 @@ namespace Rubeus
 {
     public class ForgeTickets
     {
+        private static string S(byte[] b) => System.Text.Encoding.UTF8.GetString(b);
+
         public static void ForgeTicket(
             // always required arguments
             string user,
